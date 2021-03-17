@@ -1,0 +1,42 @@
+<div class="row mt-4">
+  <button type="button"  class="btn btn-outline-dark border-0 btn-lg h-25" (click)="navigateBack()">
+    <fa-icon (click)="navigateBack()" [icon]="faArrowCircleLeft"></fa-icon>
+  </button>
+  <div class="col-10">
+
+    <form [formGroup]="slotForm" (ngSubmit)="onSubmitForm()">
+      <div class="form-group">
+        <label for="title"><h3>Titre</h3></label>
+        <input type="text" id="title" class="form-control" formControlName="title">
+      </div>
+      <div class="row">
+        <div class="form-group col-6">
+          <label for="startDate">Date de début</label>
+          <input type="datetime-local" id="startDate" class="form-control" formControlName="startDate">
+        </div>
+        <div class="form-group col-6">
+          <label for="endDate">Date de fin</label>
+          <input type="datetime-local" id="endDate" class="form-control" formControlName="endDate">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="type">Type</label>
+        <input type="text" id="type" class="form-control" formControlName="type">
+      </div>
+      <div class="form-group">
+        <h3>Classes concernées</h3>
+        <!--<select multiple class="custom-select">
+          <option *ngFor="let c of classes" [value]="c.class_name">{{c.class_name}}</option>
+        </select>-->
+        <div *ngFor="let c of classes; let i=index">
+          <label>
+            <input type="checkbox" [id]="i" [value]="c.class_id" (change)="onCheckboxChange($event)">
+            {{c.class_name}}
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-outline-primary">Ajouter</button>
+    </form>
+
+  </div>
+</div>
