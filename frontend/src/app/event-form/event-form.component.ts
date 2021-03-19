@@ -5,7 +5,8 @@ import {ClassService} from "../../services/class.service";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
-import {Slot} from "../../models/slot.model";
+import {ClandarSlot} from "../../models/clandarSlot.model";
+import SlotModel from "../../models/slot.model";
 
 @Component({
   selector: 'app-event-form',
@@ -49,12 +50,13 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   onSubmitForm() {
     const formValue = this.slotForm.value;
-    const newSlot: Slot = {
-      id: null,
-      title: formValue['title'],
-      start: formValue['startDate'],
-      end: formValue['endDate'],
-      //classes: formValue['classes'] ? formValue['classes'] : []
+    const newSlot: SlotModel = {
+      slots_id: null,
+      slots_title: formValue['title'],
+      slots_startDate: formValue['startDate'],
+      slots_endDate: formValue['endDate'],
+      slots_type: formValue['type'],
+      slots_classes: formValue['classes'] ? formValue['classes'] : []
     }
     console.log(newSlot);
   }

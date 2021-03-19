@@ -4,7 +4,7 @@
   </button>
   <div class="col-10">
 
-    <form [formGroup]="slotForm" (ngSubmit)="onSubmitForm()">
+    <form [formGroup]="slotForm" (ngSubmit)="onSubmitForm()" #f="ngForm">
       <div class="form-group">
         <label for="title"><h3>Titre</h3></label>
         <input type="text" id="title" class="form-control" formControlName="title">
@@ -35,7 +35,7 @@
           </label>
         </div>
       </div>
-      <button type="submit" class="btn btn-outline-primary">Ajouter</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="f.invalid">Ajouter</button>
     </form>
 
   </div>

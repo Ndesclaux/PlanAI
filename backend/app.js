@@ -55,6 +55,3 @@ app.get('/classes/:id', (req, res, next) => {
 })
 
 module.exports = app;
-
-
-module.exports = app;

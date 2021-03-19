@@ -1,9 +1,10 @@
 import {Subject} from "rxjs";
-import {Slot} from "../models/slot.model";
+import {ClandarSlot} from "../models/clandarSlot.model";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {ClassService} from "./class.service";
 import {ClassModel} from "../models/class.model";
+import SlotModel from "../models/slot.model";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import {ClassModel} from "../models/class.model";
 export class SlotService {
 
   public slotSubject = new Subject<any[]>();
-  private calendarSlots: Slot[] = [
+  private calendarSlots: ClandarSlot[] = [
     /*{ id: 0, title: 'Campagnes BDS', start: '2021-03-22T09:30:00.000Z', end: '2021-03-22T10:30:00.000Z', color: '#4d4dff'},
     { id: 1, title: 'Anniversaire Manon', start: '2021-03-23T09:30:00.000Z', end: '2021-03-23T10:30:00.000Z', color: '#4d4dff'},
     { id: 2, title: 'Anniversaire Nicolas', start: '2021-03-24T09:30:00.000Z', end: '2021-03-24T10:30:00.000Z', color: '#4d4dff'},*/
@@ -48,7 +49,22 @@ slots_type: "Sport"
             else
               color = '#00b33c';
 
-            let newSlot: Slot = {
+            let newSlot: SlotModel = {
+              slots_id: null,
+              slots_title: '',
+              slots_startDate: '',
+              slots_endDate: '',
+              slots_type: '',
+              slots_classes: []
+            }
+
+            newSlot.slots_id = slot.slots_id;
+            newSlot.slots_title = slot.slots_title;
+            newSlot.slots_startDate = slot.slots_startDate;
+            newSlot.slots_endDate = slot.slots_endDate;
+            newSlot.slots_type = slot.slots_type;
+
+            let newCalendarSlot: ClandarSlot = {
               id: null,
               title: '',
               start: '',
@@ -56,17 +72,17 @@ slots_type: "Sport"
               color: '',
               //classes: [],
             }
-            newSlot.id = slot.slots_id;
-            newSlot.title = slot.slots_title;
-            newSlot.start = slot.slots_startDate;
-            newSlot.end = slot.slots_endDate;
-            newSlot.color = color;
-            //newSlot.classes.push(classe);
-            this.calendarSlots.push(newSlot)
+            newCalendarSlot.id = slot.slots_id;
+            newCalendarSlot.title = slot.slots_title;
+            newCalendarSlot.start = slot.slots_startDate;
+            newCalendarSlot.end = slot.slots_endDate;
+            newCalendarSlot.color = color;
+            //newCalendarSlot.classes.push(classe);
+            this.calendarSlots.push(newCalendarSlot)
 
             /*this.classService.getClassById(slot.class_id).then( (classe) => {
 
-              let newSlot: Slot = {
+              let newCalendarSlot: SlotModel = {
                 id: slot.slots_id,
                 title: slot.slots_title,
                 start: slot.slots_startDate,
@@ -74,7 +90,7 @@ slots_type: "Sport"
                 color: color,
                 classes: [],
               }
-              let newSlot: Slot = {
+              let newCalendarSlot: SlotModel = {
                 id: null,
                 title: '',
                 start: '',
@@ -94,17 +110,17 @@ slots_type: "Sport"
 
                 ids.push(slot.slots_id);
 
-                newSlot.id = slot.slots_id;
-                newSlot.title = slot.slots_title;
-                newSlot.start = slot.slots_startDate;
-                newSlot.end = slot.slots_endDate;
-                newSlot.color = color;
-                //newSlot.classes.push(classe);
-                this.calendarSlots.push(newSlot)
+                newCalendarSlot.id = slot.slots_id;
+                newCalendarSlot.title = slot.slots_title;
+                newCalendarSlot.start = slot.slots_startDate;
+                newCalendarSlot.end = slot.slots_endDate;
+                newCalendarSlot.color = color;
+                //newCalendarSlot.classes.push(classe);
+                this.calendarSlots.push(newCalendarSlot)
                 console.log(this.calendarSlots);
               }
               else {
-                console.log("Slot existant at : " + slot.slots_id)
+                console.log("SlotModel existant at : " + slot.slots_id)
                 console.log(this.calendarSlots[slot.slots_id]);
                 //this.calendarSlots[slot.slots_id].classes.push(classe)
               }
@@ -131,7 +147,7 @@ slots_type: "Sport"
 
   addEvent(title: string, date: string, type: string): void {
 
-    /*const newSlot: Slot = {
+    /*const newSlot: SlotModel = {
       title: '',
       date: '',
       type: ''
