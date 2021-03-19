@@ -1,0 +1,4 @@
+create database if not exists plan_ai character set utf8 collate utf8_unicode_ci;
+use plan_ai;
+
+grant all privileges on plan_ai.* to 'plan_ai_admin'@'localhost' identified by 'secret';

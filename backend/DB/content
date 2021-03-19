@@ -1,0 +1,88 @@
+delete from users;
+alter table users AUTO_INCREMENT=0;
+insert into users values
+(null,'ndesclaux', 'password', 'ndesclaux@ensc.fr', TRUE);
+
+delete from class;
+alter table class AUTO_INCREMENT=0;
+insert into class values
+(null, 'Classe 1');
+insert into class values
+(null, 'Classe 2');
+insert into class values
+(null, 'Classe 3');
+
+
+delete from slots;
+alter table slots AUTO_INCREMENT=0;
+insert into slots values
+(null, 'Piscine', '2021-03-22 10:30:00', '2021-03-22 11:30:00', 'Sport');
+insert into slots values
+(null, 'Piscine', '2021-03-23 10:30:00', '2021-03-23 11:30:00', 'Sport');
+insert into slots values
+(null, 'Piscine', '2021-03-23 14:30:00', '2021-03-23 15:30:00', 'Sport');
+insert into slots values
+(null, 'Visite Musée Art', '2021-03-15 14:30:00', '2021-03-15 17:30:00', 'Sortie');
+insert into slots values
+(null, 'Visite Musée Art', '2021-03-15 08:30:00', '2021-03-15 11:30:00', 'Sortie');
+
+delete from slots_class;
+alter table slots_class AUTO_INCREMENT=0;
+insert into slots_class values
+(null, 1,1);
+insert into slots_class values
+(null, 2,2);
+insert into slots_class values
+(null, 3,3);
+insert into slots_class values
+(null, 4,1);
+insert into slots_class values
+(null, 4,2);
+insert into slots_class values
+(null, 5,3);
+
+
+
+
+
+// ----------------------------------------------------------
+
+delete from album;
+delete from users;
+delete from type;
+delete from category;
+delete from series;
+delete from user_collection;
+delete from user_wishes;
+
+insert into users values
+(0, 'ndesclaux', 'password', 'ndesclaux@ensc.fr', TRUE);
+insert into users values
+(0, 'aparize', 'password', 'aparize@ensc.fr', TRUE);
+
+insert into series values
+(1, 'tintin');
+insert into series values
+(2, 'marvel');
+
+insert into type values
+(0, 'Aventure');
+
+insert into category  values
+(0, 'BD');
+
+insert into album values
+(1, 'tintin', './covers/test.png', '2020-10-10', 'Herge', 'Casterman', 1, 1);
+insert into album values
+(2, 'Spider-man', './covers/test.png', '2020-10-10', 'Stan Lee', 'Marvel', 1, 1);
+insert into album values
+(3, 'IronMan', './covers/test.png', '2020-10-10', 'Stan Lee', 'Marvel', 1, 1);
+
+
+insert into user_collection values
+(0, 1, 1,'2020-10-10');
+
+insert into user_wishes values
+(0, 2, 1,'2020-10-10');
+insert into user_wishes values
+(0, 3, 1,'2020-10-10');

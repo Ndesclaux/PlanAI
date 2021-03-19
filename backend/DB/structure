@@ -1,0 +1,111 @@
+drop table if exists slots;
+drop table if exists users;
+drop table if exists class;
+
+create table if not exists users (
+    users_id integer not null primary key auto_increment,
+    users_login varchar(100) not null,
+    users_password varchar(100) not null,
+	users_email varchar(100) not null,
+	users_isAdmin boolean not null
+);
+
+create table if not exists class (
+    class_id int not null primary key auto_increment,
+    class_name varchar(100) not null
+
+);
+
+create table if not exists slots (
+	slots_id int not null primary key auto_increment,
+	slots_title varchar(100) not null,
+	slots_startDate DATETIME not null,
+	slots_endDate DATETIME not null,
+    slots_type varchar(100) not null
+);
+
+create table if not exists slots_class (
+	slots_class_id int not null primary key auto_increment,
+	slots_id int not null,
+	class_id int not null,
+
+	foreign key (slots_id) references slots(slots_id),
+	foreign key (class_id) references class(class_id)
+);
+
+// ----------------------------------------------------------------------------------
+
+drop table if exists user_collection;
+drop table if exists user_wishes;
+drop table if exists album_type;
+drop table if exists album;
+drop table if exists users;
+drop table if exists series;
+drop table if exists category;
+drop table if exists type;
+
+create table if not exists users (
+    users_id integer not null primary key auto_increment,
+    users_login varchar(100) not null,
+    users_password varchar(100) not null,
+	users_email varchar(100) not null,
+	users_isAdmin boolean not null
+);
+
+create table if not exists category (
+	category_id int not null primary key auto_increment,
+	category_name varchar(100) not null
+);
+
+create table if not exists series (
+	series_id int not null primary key auto_increment,
+	series_name varchar(100)
+);
+
+create table if not exists type (
+	type_id int not null primary key auto_increment,
+	type_name varchar(100)
+);
+
+create table if not exists album (
+	album_id int not null primary key auto_increment,
+	album_name varchar(100) not null,
+	album_cover varchar(100) not null,
+	album_date date not null,
+	album_author varchar(100) not null,
+	album_editor varchar(100) not null,
+	album_id_series int not null,
+	album_id_category int not null,
+
+	foreign key (album_id_series) references series (series_id),
+	foreign key (album_id_category) references category (category_id)
+);
+
+create table if not exists album_type (
+	album_type_id int not null primary key auto_increment,
+	album_id int not null,
+	type_id int not null,
+
+	foreign key (album_id) references album(album_id),
+	foreign key (type_id) references type(type_id)
+);
+
+create table if not exists user_collection (
+	user_collection_id int not null primary key auto_increment,
+	album_id int not null,
+	users_id int not null,
+	date_purchase date not null,
+
+	foreign key (album_id) references album(album_id),
+	foreign key (users_id) references users(users_id)
+);
+
+create table if not exists user_wishes (
+	user_wishes_id int not null primary key auto_increment,
+	album_id int not null,
+	users_id int not null,
+	date_added date not null,
+
+	foreign key (album_id) references album(album_id),
+	foreign key (users_id) references users(users_id)
+);
