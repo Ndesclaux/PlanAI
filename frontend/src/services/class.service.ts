@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
 import {ClassModel} from "../models/class.model";
 import {HttpClient} from "@angular/common/http";
+import {log} from "util";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class ClassService {
     this.classes = [];
     this.http.get('http://localhost:3000/classes').subscribe(
       (classes: any[]) => {
+        console.log(classes);
         if (classes){
           classes.forEach( (classe) => {
             console.log(classe);
@@ -34,14 +36,15 @@ export class ClassService {
 
   getClassById(id: number): Promise<any>{
     return new Promise( (resolve, reject) => {
-      this.http.get('http://localhost:3000/classes/'+id).subscribe(
-        (classes: any[]) => {
+      this.http.get('http://localhost:3000/classe/'+id).subscribe(
+        (classe: any[]) => {
+          /*console.log(classes);
           if (classes){
             classes.forEach( (classe) => {
-              console.log(classe);
               resolve(classe);
             })
-          }
+          }*/
+          resolve(classe);
           (err) => {
             console.error(err)
           }

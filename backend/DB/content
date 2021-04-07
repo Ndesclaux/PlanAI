@@ -16,11 +16,11 @@ insert into class values
 delete from slots;
 alter table slots AUTO_INCREMENT=0;
 insert into slots values
-(null, 'Piscine', '2021-03-22 10:30:00', '2021-03-22 11:30:00', 'Sport');
+(null, 'Piscine', '2021-03-22 10:30:00', '2021-03-22 11:30:00', 'Piscine');
 insert into slots values
-(null, 'Piscine', '2021-03-23 10:30:00', '2021-03-23 11:30:00', 'Sport');
+(null, 'Piscine', '2021-03-23 10:30:00', '2021-03-23 11:30:00', 'Piscine');
 insert into slots values
-(null, 'Piscine', '2021-03-23 14:30:00', '2021-03-23 15:30:00', 'Sport');
+(null, 'Piscine', '2021-03-23 14:30:00', '2021-03-23 15:30:00', 'Piscine');
 insert into slots values
 (null, 'Visite Musée Art', '2021-03-15 14:30:00', '2021-03-15 17:30:00', 'Sortie');
 insert into slots values

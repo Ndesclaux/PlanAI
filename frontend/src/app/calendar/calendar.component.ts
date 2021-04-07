@@ -36,12 +36,33 @@ export class CalendarComponent implements OnInit, OnDestroy {
     },
     dateClick: this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this),
-    events: [],
+    events: this.calendarEvents,
+    eventContent: this.renderEventContent,
+
   };
 
   constructor(private slotService : SlotService,
               private router: Router,) {
     const name = Calendar.name;
+  }
+
+  renderEventContent(eventInfo, createElement) {
+    var innerHtml;
+    var classes = eventInfo.event._def.extendedProps.classes;
+    var color = eventInfo.event._def.ui.backgroundColor;
+
+    var fontColor = ''
+    if (classes) {
+      // Store custom html code in variable
+      innerHtml = "<p style='color: whitesmoke; margin-bottom: 1px'><b>"+eventInfo.event._def.title + "</b></p>";
+        classes.forEach( classe => {
+          innerHtml += "<p style='margin-bottom: 1px; color: whitesmoke'>"+classe.class_name+"</p>"
+        });
+
+      //Event with rendering html
+      createElement = {html: "<div style='width: 100%!important; height: 100%!important; background-color: "+ color+ "'>" + innerHtml + "</div>"}
+      return createElement;
+    }
   }
 
   handleDateClick(arg): void {
@@ -54,11 +75,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.slotSubscription = this.slotService.slotSubject.subscribe( (slots: any[]) => {
-      console.log("Subscribe events")
-      slots.forEach( (slot) => {
-      })
+
       this.calendarOptions.events = slots
-      //console.log(this.calendarEvents);
+      /*console.log(this.calendarEvents);*/
     });
     this.slotService.getAllSlots();
     //this.slotService.emitSlotSubject();
@@ -73,3 +92,4 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.slotSubscription.unsubscribe();
   }
 }
+

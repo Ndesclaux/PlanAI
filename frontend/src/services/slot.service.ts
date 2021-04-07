@@ -22,15 +22,19 @@ export class SlotService {
               private classService: ClassService) {
   }
 
+  emitSlotSubject(): void {
+    this.slotSubject.next(this.calendarSlots.slice());
+  }
+
   /*
-  class_id: 3
+class_id: 3
 slots_class_id: 3
 slots_endDate: "2021-03-23T14:30:00.000Z"
 slots_id: 3
 slots_startDate: "2021-03-23T13:30:00.000Z"
 slots_title: "Piscine"
 slots_type: "Sport"
-   */
+ */
 
   getAllSlots(): void {
 
@@ -49,64 +53,47 @@ slots_type: "Sport"
             else
               color = '#00b33c';
 
-            let newSlot: SlotModel = {
-              slots_id: null,
-              slots_title: '',
-              slots_startDate: '',
-              slots_endDate: '',
-              slots_type: '',
-              slots_classes: []
-            }
-
-            newSlot.slots_id = slot.slots_id;
-            newSlot.slots_title = slot.slots_title;
-            newSlot.slots_startDate = slot.slots_startDate;
-            newSlot.slots_endDate = slot.slots_endDate;
-            newSlot.slots_type = slot.slots_type;
-
             let newCalendarSlot: ClandarSlot = {
               id: null,
               title: '',
               start: '',
               end: '',
               color: '',
-              //classes: [],
+              classes: [],
+              type: '',
             }
-            newCalendarSlot.id = slot.slots_id;
-            newCalendarSlot.title = slot.slots_title;
-            newCalendarSlot.start = slot.slots_startDate;
-            newCalendarSlot.end = slot.slots_endDate;
-            newCalendarSlot.color = color;
-            //newCalendarSlot.classes.push(classe);
-            this.calendarSlots.push(newCalendarSlot)
 
-            /*this.classService.getClassById(slot.class_id).then( (classe) => {
-
-              let newCalendarSlot: SlotModel = {
-                id: slot.slots_id,
-                title: slot.slots_title,
-                start: slot.slots_startDate,
-                end: slot.slots_endDate,
-                color: color,
-                classes: [],
-              }
-              let newCalendarSlot: SlotModel = {
-                id: null,
-                title: '',
-                start: '',
-                end: '',
-                color: '',
-                //classes: [],
-              }
+            this.classService.getClassById(slot.class_id).then( (classe) => {
 
               if(!ids.includes(slot.slots_id)){
-                //console.log(slot);
+
                 let color = '';
 
-                if (slot.slots_type === 'Sport')
-                  color = '#ff4d4d';
-                else
-                  color = '#00b33c';
+                switch (slot.slots_type) {
+                  case 'Piscine':
+                    color = '#66b3ff';
+                    break;
+
+                  case 'Complexe Sportif':
+                    color = '#ff9966';
+                    break;
+
+                  case 'Sortie':
+                    color = '#00cc00';
+                    break;
+
+                  case 'Bibliothèque':
+                    color = '#ff6699';
+                    break;
+
+                  case 'Tablettes':
+                    color = '#a3c2c2';
+                    break;
+
+                  default:
+                    color = '#000000';
+                    break;
+                }
 
                 ids.push(slot.slots_id);
 
@@ -115,24 +102,24 @@ slots_type: "Sport"
                 newCalendarSlot.start = slot.slots_startDate;
                 newCalendarSlot.end = slot.slots_endDate;
                 newCalendarSlot.color = color;
-                //newCalendarSlot.classes.push(classe);
-                this.calendarSlots.push(newCalendarSlot)
-                console.log(this.calendarSlots);
+                newCalendarSlot.classes.push(classe);
+                this.calendarSlots.push(newCalendarSlot);
               }
               else {
-                console.log("SlotModel existant at : " + slot.slots_id)
-                console.log(this.calendarSlots[slot.slots_id]);
-                //this.calendarSlots[slot.slots_id].classes.push(classe)
+                let index = this.calendarSlots.findIndex((c) => c.id == slot.slots_id);
+                /*console.log(index);
+                console.log(this.calendarSlots[index]);*/
+                this.calendarSlots[index].classes.push(classe);
+                /*console.log(this.calendarSlots);*/
               }
-            })*/
 
+              this.emitSlotSubject();
+            })
 
           })
 
           //this.calendarSlots = slots;
-          console.log("Slots")
-          console.log(this.calendarSlots);
-          this.emitSlotSubject();
+
         }
         (err) => {
           console.error(err);
@@ -141,8 +128,16 @@ slots_type: "Sport"
     )
   }
 
-  emitSlotSubject(): void {
-    this.slotSubject.next(this.calendarSlots.slice());
+  saveSlot(slot: SlotModel){
+    return new Promise( (resolve, reject) => {
+      this.http.post('http://localhost:3000/slot', slot).subscribe( (response) => {
+          resolve(response);
+        },
+        (error) => {
+          reject(error);
+        })
+    })
+
   }
 
   addEvent(title: string, date: string, type: string): void {

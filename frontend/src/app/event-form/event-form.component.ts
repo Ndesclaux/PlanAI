@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import {ClandarSlot} from "../../models/clandarSlot.model";
 import SlotModel from "../../models/slot.model";
+import {SlotService} from "../../services/slot.service";
 
 @Component({
   selector: 'app-event-form',
@@ -18,14 +19,15 @@ export class EventFormComponent implements OnInit, OnDestroy {
   faArrowCircleLeft = faArrowCircleLeft;
 
   slotForm: FormGroup;
+  types: any = ['Piscine','Complexe Sportif','Sortie','Bibliothèque','Tablettes'];
 
   classSubscription: Subscription;
   classes: ClassModel[] = [];
-  test: any = ["Test 1", "Test 2", "Test 3"];
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
-              private classService: ClassService) {
+              private classService: ClassService,
+              private slotService: SlotService) {
     this.initForm();
   }
 
@@ -44,8 +46,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
       type: ['', Validators.required],
       classes: this.formBuilder.array([],Validators.required)
     })
-    console.log("Init form")
-    console.log(this.classes)
   }
 
   onSubmitForm() {
@@ -58,7 +58,9 @@ export class EventFormComponent implements OnInit, OnDestroy {
       slots_type: formValue['type'],
       slots_classes: formValue['classes'] ? formValue['classes'] : []
     }
-    console.log(newSlot);
+    this.slotService.saveSlot(newSlot).then( () => {
+      this.navigateBack();
+    });
   }
 
   onCheckboxChange(e) {
@@ -84,5 +86,13 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   navigateBack() {
     this.router.navigate(['']);
+  }
+
+  changeType(e) {
+    this.slotForm.controls['type'].setValue(e.target.value.toString().slice(3));
+  }
+
+  onChangedStartDate(e) {
+    this.slotForm.controls['endDate'].setValue(e.target.value);
   }
 }

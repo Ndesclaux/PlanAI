@@ -1,16 +1,16 @@
 const express = require('express');
-const mysql = require('mysql');
+const bodyParser = require("body-parser");
+const slotRoute = require('./routes/slot.routes');
 
 const app = express();
 
-const db = mysql.createConnection({
+// parse requests of content-type: application/json
+app.use(bodyParser.json());
 
-    host: "localhost",
-    user: "plan_ai_admin",
-    password: "secret",
-    database : "plan_ai"
+// parse requests of content-type: application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
-});
+
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,25 +19,20 @@ app.use((req, res, next) => {
     next();
 });
 
-db.connect(function(err) {
-    if (err) console.error(err);
-    console.log("Connecté à la base de données MySQL!");
-});
+require("./routes/slot.routes.js")(app);
+require("./routes/classe.route.js")(app);
 
 /*app.use((req, res) => {
     res.json({ message: 'Votre requête a bien été reçue !!!!! !' });
 });*/
 
-app.get('/slots', (req, res, next) => {
-    /*db.connect(function(err) {
+/*app.get('/slots', (req, res, next) => {
+
+    db.query("SELECT * FROM slots join slots_class on slots.slots_id=slots_class.slots_id", function (err, result) {
         if (err) throw err;
-        console.log("Connecté à la base de données MySQL!");*/
-        db.query("SELECT * FROM slots join slots_class on slots.slots_id=slots_class.slots_id", function (err, result) {
-            if (err) throw err;
-            res.status(200).json(result);
-            console.log(result);
-        });
-    /*});*/
+        res.status(200).json(result);
+        console.log(result);
+    });
 })
 
 app.get('/classes', (req, res, next) => {
@@ -52,6 +47,7 @@ app.get('/classes/:id', (req, res, next) => {
         if(err) throw err;
         res.status(200).json(result);
     })
-})
+})*/
+
 
 module.exports = app;
