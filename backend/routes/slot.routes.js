@@ -14,7 +14,7 @@ module.exports = app => {
     app.put("/slot/:slotId", Slot.update);
 
     // Delete a Slot with slotId
-    app.delete("/customers/:slotId", Slot.delete);
+    app.delete("/slot/:slotId", Slot.delete);
 
     // Delete all Slots
     app.delete("/slots", Slot.deleteAll);

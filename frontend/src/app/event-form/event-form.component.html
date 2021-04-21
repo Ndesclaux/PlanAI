@@ -8,6 +8,10 @@
         <label for="title"><h3>Titre</h3></label>
         <input type="text" id="title" class="form-control" formControlName="title">
       </div>
+      <div class="form-group">
+        <label for="desc"><h3>Description</h3></label>
+        <textarea id="desc" class="form-control" formControlName="description"></textarea>
+      </div>
       <div class="row">
         <div class="form-group col-6">
           <label for="startDate">Date de début</label>
@@ -19,23 +23,35 @@
         </div>
       </div>
       <div class="form-group">
-        <!--<label for="type">Type</label>
-        <input type="text" id="type" class="form-control" formControlName="type">-->
         <select class="custom-select" (change)="changeType($event)" formControlName="type">
           <option value="" disabled>Type</option>
           <option *ngFor="let type of types" [ngValue]="type">{{type}}</option>
         </select>
       </div>
-      <div class="form-group">
-        <h3>Classes concernées</h3>
-        <div *ngFor="let c of classes; let i=index">
-          <label>
-            <input type="checkbox" [id]="i" [value]="c.class_id" (change)="onCheckboxChange($event)">
-            {{c.class_name}}
-          </label>
+      <hr>
+      <h3>Classes concernées</h3>
+      <div class="custom-control custom-checkbox" *ngFor="let c of classes; let i=index">
+        <input class="custom-control-input" type="checkbox" [id]="i" [value]="c.class_id" (change)="onCheckboxChange($event)"
+               [checked]="slot.slots_classes.indexOf(c.class_id) > -1">
+        <label class="custom-control-label" [for]="i">{{c.class_name}}</label>
+      </div>
+
+      <div *ngIf="!isModifying" class="text-center">
+        <hr>
+        <div class="custom-control custom-switch">
+          <input class="custom-control-input" type="checkbox" id="repetitiveSlot" (change)="showRepetitiveForm($event)">
+          <label class="custom-control-label" for="repetitiveSlot">Définir un évenement répétitif</label>
+        </div>
+        <br>
+        <div *ngIf="showRepetitive && !isModifying" class="form-group">
+          <label for="nbWeeks" class="mr-3">Nombre de semaine</label>
+          <input type="number" id="nbWeeks" style="width: 50px" formControlName="nbWeeks">
         </div>
       </div>
-      <button type="submit" class="btn btn-outline-primary" [disabled]="f.invalid">Ajouter</button>
+      <div class="text-center" style="margin: 0 auto; width: 100%">
+        <button type="submit" class="btn btn-outline-dark" [disabled]="f.invalid">{{this.isModifying ? "Modifier" : "Ajouter"}}</button>
+        <small id="formHelp" class="form-text text-muted" *ngIf="f.invalid">Vous devez remplir tous les champs</small>
+      </div>
     </form>
 
   </div>

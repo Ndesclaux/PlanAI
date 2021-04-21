@@ -7,5 +7,6 @@ export class ClandarSlot {
   end: string;
   type: string;
   classes : ClassModel[];
+  description?: string;
   color?: string;
 }

@@ -7,4 +7,5 @@ export default class SlotModel {
   slots_endDate: string;
   slots_type: string;
   slots_classes: ClassModel[];
+  slots_description: string;
 }

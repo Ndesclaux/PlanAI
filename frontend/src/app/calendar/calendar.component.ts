@@ -7,6 +7,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import {Router} from "@angular/router";
+import Swal from 'sweetalert2';
+import {logger} from "codelyzer/util/logger";
 
 @Component({
   selector: 'app-calendar',
@@ -55,9 +57,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
     if (classes) {
       // Store custom html code in variable
       innerHtml = "<p style='color: whitesmoke; margin-bottom: 1px'><b>"+eventInfo.event._def.title + "</b></p>";
-        classes.forEach( classe => {
-          innerHtml += "<p style='margin-bottom: 1px; color: whitesmoke'>"+classe.class_name+"</p>"
-        });
+      classes.forEach( classe => {
+        innerHtml += "<p style='margin-bottom: 1px; color: whitesmoke'>"+classe.class_name+"</p>"
+      });
 
       //Event with rendering html
       createElement = {html: "<div style='width: 100%!important; height: 100%!important; background-color: "+ color+ "'>" + innerHtml + "</div>"}
@@ -69,9 +71,77 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.calendarComponent.getApi().changeView('timeGridDay',arg.dateStr);
   }
 
+
   handleEventClick(arg): void{
-    alert(arg.event.title);
+    let classes = arg.event._def.extendedProps.classes;
+
+    console.log(arg.event.extendedProps);
+
+    //region Construction du contenu de la modale
+    let innerhtml: string = "<div>";
+    innerhtml += "<hr><p>";
+    classes.forEach((c,index) => {
+
+      if(index !== classes.length-1)
+        innerhtml += c.class_name + " / ";
+      else
+        innerhtml += c.class_name + "</p>";
+
+    });
+    innerhtml += "<p>Début : " + arg.event.start.toLocaleTimeString().slice(0,-3) + " / Fin : "
+      + arg.event.end.toLocaleTimeString().slice(0,-3) + "</p>"
+
+    if(arg.event._def.extendedProps.description != null){
+      innerhtml += "<hr>"
+      innerhtml += "<p>" + arg.event._def.extendedProps.description + "</p>"
+    }
+    innerhtml += "</div>"
+    //endregion
+
+    Swal.fire({
+      title: arg.event.title,
+      html: innerhtml,
+      showCloseButton: true,
+      showCancelButton: true,
+      showDenyButton: true,
+      confirmButtonText: '<i class="fas fa-pen"></i> Modifier',
+      denyButtonText: '<i class="fas fa-times"></i> Supprimer',
+    }).then((result) => {
+      if (result.isConfirmed){
+        console.log("Modifier clicked : ", arg.event.id);
+        this.router.navigate(['/editSlot', arg.event.id]);
+      }
+      else if (result.isDenied){
+        Swal.fire({
+          title: 'Supprimer cet événement ?',
+          //text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Confirmer'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log("Supprimer clicked");
+            this.slotService.deleteSlot(arg.event.id).then( () => {
+              Swal.fire({
+                position: 'top-end',
+                icon:'success',
+                title: 'Evénement supprimé !',
+                showConfirmButton: false,
+                timer: 2000
+                }
+              ).then( () => {
+                this.slotService.getAllSlots();
+              })
+            })
+
+          }
+        })
+
+      }
+    })
   }
+
 
   ngOnInit(): void {
     this.slotSubscription = this.slotService.slotSubject.subscribe( (slots: any[]) => {

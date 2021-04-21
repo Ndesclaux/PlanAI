@@ -13,7 +13,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import { EventFormComponent } from './event-form/event-form.component';
 import {ClassService} from "../services/class.service";
+
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   interactionPlugin
@@ -22,6 +24,7 @@ FullCalendarModule.registerPlugins([
 const appRoutes: Routes = [
   {path: '', component: CalendarComponent},
   {path: 'addSlot', component: EventFormComponent},
+  {path: 'editSlot/:id', component: EventFormComponent},
 ];
 
 
@@ -37,7 +40,8 @@ const appRoutes: Routes = [
     HttpClientModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    SweetAlert2Module.forRoot(),
   ],
   providers: [
     SlotService,

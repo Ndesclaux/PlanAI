@@ -3,6 +3,9 @@ alter table users AUTO_INCREMENT=0;
 insert into users values
 (null,'ndesclaux', 'password', 'ndesclaux@ensc.fr', TRUE);
 
+delete from slots_class;
+alter table slots_class AUTO_INCREMENT=0;
+
 delete from class;
 alter table class AUTO_INCREMENT=0;
 insert into class values
@@ -16,18 +19,16 @@ insert into class values
 delete from slots;
 alter table slots AUTO_INCREMENT=0;
 insert into slots values
-(null, 'Piscine', '2021-03-22 10:30:00', '2021-03-22 11:30:00', 'Piscine');
+(null, 'Piscine', '2021-03-22 10:30:00', '2021-03-22 11:30:00', 'Piscine', 'Contacter piscine avant première séance');
 insert into slots values
-(null, 'Piscine', '2021-03-23 10:30:00', '2021-03-23 11:30:00', 'Piscine');
+(null, 'Piscine', '2021-03-23 10:30:00', '2021-03-23 11:30:00', 'Piscine', null);
 insert into slots values
-(null, 'Piscine', '2021-03-23 14:30:00', '2021-03-23 15:30:00', 'Piscine');
+(null, 'Piscine', '2021-03-23 14:30:00', '2021-03-23 15:30:00', 'Piscine', null);
 insert into slots values
-(null, 'Visite Musée Art', '2021-03-15 14:30:00', '2021-03-15 17:30:00', 'Sortie');
+(null, 'Visite Musée Art', '2021-03-15 14:30:00', '2021-03-15 17:30:00', 'Sortie', 'Mot parents retour école plus tard');
 insert into slots values
-(null, 'Visite Musée Art', '2021-03-15 08:30:00', '2021-03-15 11:30:00', 'Sortie');
+(null, 'Visite Musée Art', '2021-03-15 08:30:00', '2021-03-15 11:30:00', 'Sortie', 'Mot parents pour qu\'ils prévoient le pic-nic pour leurs enfants');
 
-delete from slots_class;
-alter table slots_class AUTO_INCREMENT=0;
 insert into slots_class values
 (null, 1,1);
 insert into slots_class values
@@ -40,8 +41,6 @@ insert into slots_class values
 (null, 4,2);
 insert into slots_class values
 (null, 5,3);
-
-
 
 
 

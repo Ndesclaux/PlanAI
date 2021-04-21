@@ -19,10 +19,9 @@ export class ClassService {
     this.classes = [];
     this.http.get('http://localhost:3000/classes').subscribe(
       (classes: any[]) => {
-        console.log(classes);
         if (classes){
           classes.forEach( (classe) => {
-            console.log(classe);
+            //console.log(classe);
             this.classes.push(classe);
             this.emitClassSubject();
           })
