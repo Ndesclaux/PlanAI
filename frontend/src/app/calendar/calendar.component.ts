@@ -9,6 +9,8 @@ import listPlugin from '@fullcalendar/list';
 import {Router} from "@angular/router";
 import Swal from 'sweetalert2';
 import {logger} from "codelyzer/util/logger";
+import {ClassService} from "../../services/class.service";
+import {ClassModel} from "../../models/class.model";
 
 @Component({
   selector: 'app-calendar',
@@ -42,8 +44,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     eventContent: this.renderEventContent,
 
   };
+  classSubscription: Subscription;
+  classes: ClassModel[] = [];
 
   constructor(private slotService : SlotService,
+              private classService: ClassService,
               private router: Router,) {
     const name = Calendar.name;
   }
@@ -147,10 +152,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.slotSubscription = this.slotService.slotSubject.subscribe( (slots: any[]) => {
 
       this.calendarOptions.events = slots
-      /*console.log(this.calendarEvents);*/
     });
     this.slotService.getAllSlots();
-    //this.slotService.emitSlotSubject();
+    this.classSubscription = this.classService.classSubject.subscribe((classes: any[]) => {
+      this.classes = classes
+    })
+    this.classService.getAllClasses();
 
   }
 

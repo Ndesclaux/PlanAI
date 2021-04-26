@@ -4,9 +4,13 @@
       <full-calendar deepChangeDetection="true" #calendar [options]="calendarOptions"  ></full-calendar>
     </div>
     <div class="col-2 mt-1">
-      <button type="button" class="btn btn-outline-dark" (click)="addEventButtonClicked()">Add Event</button>
+      <button type="button" class="btn btn-outline-dark" (click)="addEventButtonClicked()">Ajouter événement</button>
       <!--<div class="container-fluid border border-dark mt-4" style="height: 50%">
         <h1>Filtres :</h1>
+        <select class="custom-select mt-2">
+          <option value="" disabled selected>Classe</option>
+          <option *ngFor="let class of classes" [ngValue]="class.class_id">{{class.class_name}}</option>
+        </select>
       </div>-->
     </div>
   </div>
